@@ -1,24 +1,22 @@
-// Copyright Envoy Gateway Authors
-// SPDX-License-Identifier: Apache-2.0
-// The full text of the Apache license is available in the LICENSE file at
-// the root of the repo.
-
 package extensionserver
 
 import (
 	"log/slog"
 
 	pb "github.com/envoyproxy/gateway/proto/extension"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 type Server struct {
 	pb.UnimplementedEnvoyGatewayExtensionServer
 
-	log *slog.Logger
+	log    *slog.Logger
+	client client.Client
 }
 
-func New(logger *slog.Logger) *Server {
+func New(logger *slog.Logger, client client.Client) *Server {
 	return &Server{
-		log: logger,
+		log:    logger,
+		client: client,
 	}
 }
