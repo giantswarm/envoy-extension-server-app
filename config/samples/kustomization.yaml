@@ -1,0 +1,4 @@
+## Append samples of your project ##
+resources:
+- gateway.giantswarm.io_v1alpha1_certificatepolicy.yaml
+# +kubebuilder:scaffold:manifestskustomizesamples

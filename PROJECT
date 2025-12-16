@@ -8,4 +8,14 @@ layout:
 - go.kubebuilder.io/v4
 projectName: envoy-extension-server-app
 repo: github.com/giantswarm/envoy-extension-server-app
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: giantswarm.io
+  group: gateway.giantswarm.io
+  kind: CertificatePolicy
+  path: github.com/giantswarm/envoy-extension-server-app/api/v1alpha1
+  version: v1alpha1
 version: "3"

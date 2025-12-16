@@ -1,0 +1,9 @@
+apiVersion: gateway.giantswarm.io.giantswarm.io/v1alpha1
+kind: CertificatePolicy
+metadata:
+  labels:
+    app.kubernetes.io/name: envoy-extension-server-app
+    app.kubernetes.io/managed-by: kustomize
+  name: certificatepolicy-sample
+spec:
+  # TODO(user): Add fields here
