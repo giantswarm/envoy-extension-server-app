@@ -10,7 +10,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/scheme"
 )
 
-const GroupName = "example.extensions.io"
+const GroupName = "gateway.giantswarm.io"
 
 var (
 

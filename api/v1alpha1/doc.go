@@ -4,5 +4,5 @@
 // the root of the repo.
 
 // +kubebuilder:object:generate=true
-// +groupName=example.extensions.io
+// +groupName=gateway.giantswarm.io
 package v1alpha1

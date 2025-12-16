@@ -16,10 +16,10 @@ import (
 	bav3 "github.com/envoyproxy/go-control-plane/envoy/extensions/filters/http/basic_auth/v3"
 	hcm "github.com/envoyproxy/go-control-plane/envoy/extensions/filters/network/http_connection_manager/v3"
 	"github.com/envoyproxy/go-control-plane/pkg/wellknown"
-	"github.com/exampleorg/envoygateway-extension/api/v1alpha1"
 	"google.golang.org/protobuf/types/known/anypb"
 
 	pb "github.com/envoyproxy/gateway/proto/extension"
+	"github.com/giantswarm/envoy-extension-server-app/api/v1alpha1"
 )
 
 // PostHTTPListenerModify is called after Envoy Gateway is done generating a
@@ -34,13 +34,13 @@ func (s *Server) PostHTTPListenerModify(ctx context.Context, req *pb.PostHTTPLis
 	// provided contexts that were attached to the gateway.
 	passwords := NewHtpasswd()
 	for _, ext := range req.PostListenerContext.ExtensionResources {
-		var listenerContext v1alpha1.ListenerContextExample
-		if err := json.Unmarshal(ext.GetUnstructuredBytes(), &listenerContext); err != nil {
+		var certPolicy v1alpha1.CertificatePolicy
+		if err := json.Unmarshal(ext.GetUnstructuredBytes(), &certPolicy); err != nil {
 			s.log.Error("failed to unmarshal the extension", slog.String("error", err.Error()))
 			continue
 		}
-		s.log.Info("processing an extension context", slog.String("username", listenerContext.Spec.Username))
-		passwords.AddUser(listenerContext.Spec.Username, listenerContext.Spec.Password)
+		s.log.Info("processing an extension context", slog.String("username", certPolicy.Spec.Username))
+		passwords.AddUser(certPolicy.Spec.Username, certPolicy.Spec.Password)
 	}
 
 	// First, get the filter chains from the listener

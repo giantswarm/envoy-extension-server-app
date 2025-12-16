@@ -17,7 +17,7 @@ data:
       policyResources:
       - group: example.extensions.io
         version: v1alpha1
-        kind: ListenerContextExample
+        kind: CertificatePolicy
       hooks:
         # The type of hooks that should be invoked
         xdsTranslator:

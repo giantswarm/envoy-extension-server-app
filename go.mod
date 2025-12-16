@@ -1,4 +1,4 @@
-module github.com/exampleorg/envoygateway-extension
+module github.com/giantswarm/envoy-extension-server-app
 
 go 1.25.5
 
@@ -70,7 +70,5 @@ require (
 	sigs.k8s.io/structured-merge-diff/v6 v6.3.0 // indirect
 	sigs.k8s.io/yaml v1.6.0 // indirect
 )
-
-replace github.com/envoyproxy/gateway => ../../
 
 tool sigs.k8s.io/controller-tools/cmd/controller-gen

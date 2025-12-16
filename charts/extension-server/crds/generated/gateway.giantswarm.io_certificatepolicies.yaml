@@ -4,20 +4,20 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.19.0
-  name: listenercontextexamples.example.extensions.io
+  name: certificatepolicies.gateway.giantswarm.io
 spec:
-  group: example.extensions.io
+  group: gateway.giantswarm.io
   names:
-    kind: ListenerContextExample
-    listKind: ListenerContextExampleList
-    plural: listenercontextexamples
-    singular: listenercontextexample
+    kind: CertificatePolicy
+    listKind: CertificatePolicyList
+    plural: certificatepolicies
+    singular: certificatepolicy
   scope: Namespaced
   versions:
   - name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: ListenerContextExample provides an example extension policy context
+        description: CertificatePolicy provides an example extension policy context
           resource.
         properties:
           apiVersion:
@@ -39,7 +39,7 @@ spec:
             type: object
           spec:
             properties:
-              password:
+              secretName:
                 type: string
               targetRefs:
                 items:
@@ -93,12 +93,9 @@ spec:
                   - name
                   type: object
                 type: array
-              username:
-                type: string
             required:
-            - password
+            - secretName
             - targetRefs
-            - username
             type: object
         required:
         - spec

@@ -12,7 +12,6 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/exampleorg/envoygateway-extension/internal/extensionserver"
 	"github.com/urfave/cli/v2"
 	"google.golang.org/grpc"
 
