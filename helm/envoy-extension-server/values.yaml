@@ -54,3 +54,9 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+clusterRoleBindings:
+  subjects:
+    - kind: ServiceAccount
+      name: envoy-gateway
+      namespace: envoy-gateway-system

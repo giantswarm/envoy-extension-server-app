@@ -1,0 +1,29 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: certificate-policy-status-update
+  labels:
+    {{- include "extension-server.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - gateway.giantswarm.io
+  resources:
+  - certificatepolicies/status
+  verbs:
+  - update
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: certificate-policy-viewer
+  labels:
+    {{- include "extension-server.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - gateway.giantswarm.io
+  resources:
+  - certificatepolicies
+  verbs:
+  - get
+  - list
+  - watch
