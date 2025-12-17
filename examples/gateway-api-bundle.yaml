@@ -32,7 +32,7 @@ data:
                     service:
                       # The service that is hosting the extension server
                       fqdn:
-                        hostname: extension-server.envoy-gateway-system.svc.cluster.local
+                        hostname: envoy-extension-server-app.envoy-gateway-system.svc.cluster.local
                         port: 5005
       gatewayApiConfig:
         userConfig:
