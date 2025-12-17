@@ -1,8 +1,3 @@
-// Copyright Envoy Gateway Authors
-// SPDX-License-Identifier: Apache-2.0
-// The full text of the Apache license is available in the LICENSE file at
-// the root of the repo.
-
 package main
 
 import (
@@ -12,13 +7,26 @@ import (
 	"os/signal"
 	"syscall"
 
+	pb "github.com/envoyproxy/gateway/proto/extension"
 	"github.com/urfave/cli/v2"
 	"google.golang.org/grpc"
 
-	pb "github.com/envoyproxy/gateway/proto/extension"
-
+	"github.com/giantswarm/envoy-extension-server-app/api/v1alpha1"
 	"github.com/giantswarm/envoy-extension-server-app/internal/extensionserver"
+
+	"k8s.io/apimachinery/pkg/runtime"
+	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
+	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/client/config"
 )
+
+var scheme = runtime.NewScheme()
+
+func init() {
+	utilruntime.Must(clientgoscheme.AddToScheme(scheme))
+	utilruntime.Must(v1alpha1.AddToScheme(scheme))
+}
 
 func main() {
 	app := cli.App{
@@ -82,6 +90,20 @@ func startExtensionServer(cCtx *cli.Context) error {
 	logger := slog.New(slog.NewTextHandler(os.Stderr, &slog.HandlerOptions{
 		Level: level,
 	}))
+
+	// Create Kubernetes client
+	cfg, err := config.GetConfig()
+	if err != nil {
+		logger.Error("failed to get Kubernetes config", slog.String("error", err.Error()))
+		return err
+	}
+
+	k8sClient, err := client.New(cfg, client.Options{Scheme: scheme})
+	if err != nil {
+		logger.Error("failed to create Kubernetes client", slog.String("error", err.Error()))
+		return err
+	}
+
 	address := net.JoinHostPort(cCtx.String("host"), cCtx.String("port"))
 	logger.Info("Starting the extension server", slog.String("host", address))
 	lis, err := net.Listen("tcp", address)
@@ -90,6 +112,6 @@ func startExtensionServer(cCtx *cli.Context) error {
 	}
 	var opts []grpc.ServerOption
 	grpcServer = grpc.NewServer(opts...)
-	pb.RegisterEnvoyGatewayExtensionServer(grpcServer, extensionserver.New(logger))
+	pb.RegisterEnvoyGatewayExtensionServer(grpcServer, extensionserver.New(logger, k8sClient))
 	return grpcServer.Serve(lis)
 }
