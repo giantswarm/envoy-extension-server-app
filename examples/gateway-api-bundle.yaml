@@ -27,7 +27,9 @@ data:
                         - HTTPListener
                         - Translation
                         translation:
-                          secrets:
+                          cluster:
+                            includeAll: false
+                          secret:
                             includeAll: true
                     service:
                       # The service that is hosting the extension server
