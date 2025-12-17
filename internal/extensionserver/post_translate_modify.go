@@ -16,6 +16,23 @@ import (
 func (s *Server) PostTranslateModify(ctx context.Context, req *pb.PostTranslateModifyRequest) (*pb.PostTranslateModifyResponse, error) {
 	s.log.Info("PostTranslateModify callback was invoked")
 
+	// Log incoming request details
+	s.log.Debug("request details",
+		"clustersCount", len(req.GetClusters()),
+		"secretsCount", len(req.GetSecrets()),
+		"listenersCount", len(req.GetListeners()),
+		"routesCount", len(req.GetRoutes()),
+		"extensionResourcesCount", len(req.PostTranslateContext.GetExtensionResources()),
+	)
+
+	// Log existing secrets from the request
+	for i, secret := range req.GetSecrets() {
+		s.log.Debug("existing secret in request",
+			"index", i,
+			"name", secret.GetName(),
+		)
+	}
+
 	// Extract CertificatePolicies from the request's extension resources
 	policies := s.extractCertificatePolicies(req.PostTranslateContext.GetExtensionResources())
 
@@ -47,6 +64,12 @@ func (s *Server) PostTranslateModify(ctx context.Context, req *pb.PostTranslateM
 			"secretName", envoySecret.Name,
 		)
 	}
+
+	// Log final response summary
+	s.log.Debug("response summary",
+		"totalSecretsCount", len(secrets),
+		"addedSecretsCount", len(secrets)-len(req.GetSecrets()),
+	)
 
 	return &pb.PostTranslateModifyResponse{
 		Secrets: secrets,

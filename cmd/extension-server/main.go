@@ -56,8 +56,8 @@ func main() {
 					&cli.StringFlag{
 						Name:        "log-level",
 						Usage:       "the log level, should be one of Debug/Info/Warn/Error",
-						DefaultText: "Info",
-						Value:       "Info",
+						DefaultText: "Debug",
+						Value:       "Debug",
 					},
 				},
 			},
