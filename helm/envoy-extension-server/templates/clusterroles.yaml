@@ -27,6 +27,14 @@ rules:
   - get
   - list
   - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "extension-server.fullname" . }}
+  labels:
+    {{- include "extension-server.labels" . | nindent 4 }}
+rules:
 - apiGroups:
   - ""
   resources:

@@ -23,4 +23,4 @@ spec:
       namespace: org-<ORG>
   name: envoy-extension-server
   namespace: envoy-gateway-system
-  version: 0.0.0-78a5e729c5969ae588a3668ec2f7dc4c6a6761b6
+  version: 0.0.0-7792338eb8ceff2cde4bfc512c73b9e40b624990
