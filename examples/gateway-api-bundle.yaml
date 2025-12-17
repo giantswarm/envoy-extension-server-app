@@ -8,6 +8,32 @@ data:
         enabled: true
       envoyGateway:
         enabled: true
+        userConfig:
+          configMap:
+            values: |
+              config:
+                envoyGateway:
+                  extensionManager:
+                    # Envoy Gateway will watch these resource kinds and use them as extension policies
+                    # which can be attached to Gateway resources.
+                    policyResources:
+                    - group: gateway.giantswarm.io
+                      version: v1alpha1
+                      kind: CertificatePolicy
+                    hooks:
+                      # The type of hooks that should be invoked
+                      xdsTranslator:
+                        post:
+                        - HTTPListener
+                        - Translation
+                        translation:
+                          secrets:
+                            includeAll: true
+                    service:
+                      # The service that is hosting the extension server
+                      fqdn:
+                        hostname: extension-server.envoy-gateway-system.svc.cluster.local
+                        port: 5005
       gatewayApiConfig:
         userConfig:
           configMap:
