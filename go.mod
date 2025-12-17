@@ -6,6 +6,7 @@ require (
 	github.com/envoyproxy/gateway v1.5.6
 	github.com/envoyproxy/go-control-plane/envoy v1.36.0
 	github.com/urfave/cli/v2 v2.27.7
+	github.com/urfave/cli/v3 v3.6.1
 	google.golang.org/grpc v1.76.0
 	google.golang.org/protobuf v1.36.10
 	k8s.io/api v0.34.3
