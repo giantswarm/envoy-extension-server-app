@@ -8,7 +8,7 @@ import (
 	"syscall"
 
 	pb "github.com/envoyproxy/gateway/proto/extension"
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 	"google.golang.org/grpc"
 
 	"github.com/giantswarm/envoy-extension-server-app/api/v1alpha1"
